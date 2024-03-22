@@ -66,10 +66,12 @@ data "aws_iam_policy_document" "website_codebuild_cloudwatch" {
 | [aws_iam_user_login_profile.login_profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_login_profile) | resource |
 | [aws_iam_user_policy_attachment.access_keys](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
 | [aws_iam_user_policy_attachment.login_credentials](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
+| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_iam_policy_document.access_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.list_keys](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.login_credentials](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.manage_keys](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
@@ -87,5 +89,7 @@ data "aws_iam_policy_document" "website_codebuild_cloudwatch" {
 
 | Name | Description |
 |------|-------------|
+| <a name="output_iam_user_arn"></a> [iam\_user\_arn](#output\_iam\_user\_arn) | n/a |
+| <a name="output_iam_user_id"></a> [iam\_user\_id](#output\_iam\_user\_id) | n/a |
 | <a name="output_user_initial_password"></a> [user\_initial\_password](#output\_user\_initial\_password) | n/a |
 <!-- END_TF_DOCS -->
