@@ -1,70 +1,6 @@
-> START INSTRUCTION FOR TECHNATIVE ENGINEERS
+# Terraform AWS [iam-user]
 
-# terraform-aws-module-template
-
-Template for creating a new TerraForm AWS Module. For TechNative Engineers.
-
-## Instructions
-
-### Your Module Name
-
-Think hard and come up with the shortest descriptive name for your module.
-Look at competition in the [terraform
-registry](https://registry.terraform.io/).
-
-Your module name should be max. three words seperated by dashes. E.g.
-
-- html-form-action
-- new-account-notifier
-- budget-alarms
-- fix-missing-tags
-
-### Setup Github Project
-
-1. Click the template button on the top right...
-1. Name github project `terraform-aws-[your-module-name]`
-1. Make project private untill ready for publication
-1. Add a description in the `About` section (top right)
-1. Add tags: `terraform`, `terraform-module`, `aws` and more tags relevant to your project: e.g. `s3`, `lambda`, `sso`, etc..
-1. Install `pre-commit`
-
-### Develop your module
-
-1. Develop your module
-1. Try to use the [best practices for TerraForm
-   development](https://www.terraform-best-practices.com/) and [TerraForm AWS
-   Development](https://github.com/ozbillwang/terraform-best-practices).
-
-## Finish project documentation
-
-1. Set well written title
-2. Add one or more shields
-3. Start readme with a short and complete as possible module description. This
-   is the part where you sell your module.
-4. Complete README with well written documentation. Try to think as a someone
-   with three months of Terraform experience.
-5. Check if pre-commit correctly generates the standard Terraform documentation.
-
-## Publish module
-
-If your module is in a state that it could be useful for others and ready for
-publication, you can publish a first version.
-
-1. Create a [Github
-   Release](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)
-2. Publish in the TerraForm Registry under the Technative Namespace (the GitHub
-   Repo must be in the TechNative Organization)
-
----
-
-> END INSTRUCTION FOR TECHNATIVE ENGINEERS
-
-
-# Terraform AWS [Module Name] ![](https://img.shields.io/github/workflow/status/TechNative-B-V/terraform-aws-module-name/tflint.yaml?style=plastic)
-
-<!-- SHIELDS -->
-
-This module implements ...
+This module implements a simple user module that allows the user to create their own credentials and assign MFA.
 
 [![](we-are-technative.png)](https://www.technative.nl)
 
@@ -76,17 +12,80 @@ Run `pre-commit install` to install any guardrails implemented using pre-commit.
 
 See [pre-commit installation](https://pre-commit.com/#install) on how to install pre-commit.
 
-...
-
 ## Usage
 
 To use this module ...
 
 ```hcl
-{
-  some_conf = "might need explanation"
+module "iam_user" {
+  source   = "git@github.com:TechNative-B-V/terraform-aws-module-iam-user.git?ref=HEAD"
+
+  user_name = "example@example.com"
+  user_path = "/example_path/"
+
+  customer_managed_policies = {
+    "website_codebuild_cloudwatch": jsondecode(data.aws_iam_policy_document.website_codebuild_cloudwatch.json)
+  }
+  aws_managed_policies      = [ "AdministratorAccess" ]
+
+  assume_role_configuration = { "example": { "account_id" : 123123123, "role_path" : "/role/path/to/assume/role_name" } }
+
+  allow_access_keys         = false
+  allow_console_login = true
+}
+
+data "aws_iam_policy_document" "website_codebuild_cloudwatch" {
+  statement {
+    actions = ["logs:CreateLogStream", "logs:PutLogEvents"]
+
+    resources = [ "arn:${data.aws_partition.current.id}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/codebuild/website_stack_website_*" ]
+  }
 }
 ```
 
 <!-- BEGIN_TF_DOCS -->
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >=4.3.0 |
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_policy_helper"></a> [policy\_helper](#module\_policy\_helper) | git@github.com:TechNative-B-V/terraform-aws-module-iam-policy-helper.git | ced5ee6d207f723d802b65374804ca7e123f175e |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_iam_policy.access_keys](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_policy.login_credentials](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_user.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user) | resource |
+| [aws_iam_user_login_profile.login_profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_login_profile) | resource |
+| [aws_iam_user_policy_attachment.access_keys](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
+| [aws_iam_user_policy_attachment.login_credentials](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy_attachment) | resource |
+| [aws_iam_policy_document.access_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.list_keys](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.login_credentials](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.manage_keys](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_allow_access_keys"></a> [allow\_access\_keys](#input\_allow\_access\_keys) | Allow self management of access keys. | `bool` | `false` | no |
+| <a name="input_allow_console_login"></a> [allow\_console\_login](#input\_allow\_console\_login) | Allow console access. | `bool` | `false` | no |
+| <a name="input_assume_role_configuration"></a> [assume\_role\_configuration](#input\_assume\_role\_configuration) | Policies for assume role. Optional. | <pre>map(object({<br>    account_id = string<br>    role_path  = string<br>  }))</pre> | `{}` | no |
+| <a name="input_aws_managed_policies"></a> [aws\_managed\_policies](#input\_aws\_managed\_policies) | Optional list of AWS managed policies. We assume that these policies already exist. | `list(string)` | `[]` | no |
+| <a name="input_customer_managed_policies"></a> [customer\_managed\_policies](#input\_customer\_managed\_policies) | Optional map of customer managed policy names. Key is policyname and value is policy object in HCL. | `any` | `{}` | no |
+| <a name="input_user_name"></a> [user\_name](#input\_user\_name) | User name for new user. Required value. | `string` | n/a | yes |
+| <a name="input_user_path"></a> [user\_path](#input\_user\_path) | Path for new user. Defaults to "/". | `string` | `"/"` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_user_initial_password"></a> [user\_initial\_password](#output\_user\_initial\_password) | n/a |
 <!-- END_TF_DOCS -->
