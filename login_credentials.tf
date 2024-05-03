@@ -26,6 +26,24 @@ data "aws_iam_policy_document" "login_credentials" {
   }
 
   statement {
+    sid = "AllowListTags"
+    actions = [
+				"iam:ListInstanceProfileTags",
+				"iam:ListMFADeviceTags",
+				"iam:ListOpenIDConnectProviderTags",
+				"iam:ListPolicyTags",
+				"iam:ListRoleTags",
+				"iam:ListSAMLProviderTags",
+				"iam:ListServerCertificateTags",
+				"iam:ListUserTags",
+				"iam:Tag*",
+				"iam:Untag*",
+    ]
+    effect    = "Allow"
+    resources = [aws_iam_user.this.arn]
+  }
+
+  statement {
     sid = "AllowListUsers"
     actions = [
       "iam:ListUsers"
