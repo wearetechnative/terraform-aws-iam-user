@@ -1,4 +1,4 @@
-# Terraform AWS [iam-user] ![](https://img.shields.io/github/actions/workflow/status/wearetechnative/terraform-aws-iam-user/tflint.yaml?style=plastic)
+# Terraform AWS iam-user ![](https://img.shields.io/github/actions/workflow/status/wearetechnative/terraform-aws-iam-user/tflint.yaml?style=plastic)
 
 This module implements a simple user module that allows the user to create their own credentials and assign MFA.
 
