@@ -18,7 +18,7 @@ To use this module ...
 
 ```hcl
 module "iam_user" {
-  source   = "git@github.com:TechNative-B-V/terraform-aws-module-iam-user.git?ref=HEAD"
+  source   = "git@github.com:wearetechnative/terraform-aws-module-iam-user.git?ref=HEAD"
 
   user_name = "example@example.com"
   user_path = "/example_path/"
