@@ -7,6 +7,13 @@ data "aws_iam_policy_document" "login_credentials" {
   }
 
   statement {
+    sid       = "AllowGetLoginProfile"
+    actions   = ["iam:GetLoginProfile"]
+    effect    = "Allow"
+    resources = ["*"]
+  }
+
+  statement {
     sid       = "AllowViewPasswordPolicy"
     actions   = ["iam:GetAccountPasswordPolicy"]
     effect    = "Allow"
