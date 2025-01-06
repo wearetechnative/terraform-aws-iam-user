@@ -7,10 +7,10 @@ data "aws_iam_policy_document" "login_credentials" {
   }
 
   statement {
-    sid       = "AllowGetLoginProfile"
-    actions   = ["iam:GetLoginProfile"]
+    sid       = "AllowUsertoChangePassword"
+    actions   = ["iam:GetLoginProfile","iam:GetUser"]
     effect    = "Allow"
-    resources = ["*"]
+    resources = [aws_iam_user.this.arn]
   }
 
   statement {
