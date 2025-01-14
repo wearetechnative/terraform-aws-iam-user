@@ -7,7 +7,7 @@ resource "aws_iam_user" "this" {
 
 module "policy_helper" {
   
-  source = "git@github.com:wearetechnative/terraform-aws-iam-helper.git?ref=b5e28f28c11fd0f5733f0a0c8ad212bed4b99ff6"
+  source = "github.com/wearetechnative/terraform-aws-iam-helper.git?ref=a6525c6df24080263b16efda52f4be20267f4513"
   principal_type = "user"
 
   principal_name            = aws_iam_user.this.name
