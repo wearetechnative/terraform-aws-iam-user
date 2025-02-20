@@ -3,7 +3,7 @@ resource "aws_iam_user_login_profile" "login_profile" {
 
   user                    = aws_iam_user.this.name
   password_length         = 16
-  password_reset_required = true
+  password_reset_required = var.password_reset_required
 
   lifecycle {
     ignore_changes = [

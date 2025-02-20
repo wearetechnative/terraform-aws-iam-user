@@ -82,6 +82,7 @@ data "aws_iam_policy_document" "website_codebuild_cloudwatch" {
 | <a name="input_assume_role_configuration"></a> [assume\_role\_configuration](#input\_assume\_role\_configuration) | Policies for assume role. Optional. | <pre>map(object({<br>    account_id = string<br>    role_path  = string<br>  }))</pre> | `{}` | no |
 | <a name="input_aws_managed_policies"></a> [aws\_managed\_policies](#input\_aws\_managed\_policies) | Optional list of AWS managed policies. We assume that these policies already exist. | `list(string)` | `[]` | no |
 | <a name="input_customer_managed_policies"></a> [customer\_managed\_policies](#input\_customer\_managed\_policies) | Optional map of customer managed policy names. Key is policyname and value is policy object in HCL. | `any` | `{}` | no |
+| <a name="input_password_reset_required"></a> [password\_reset\_required](#input\_password\_reset\_required) | Require password reset on next login. | `bool` | `false` | no |
 | <a name="input_user_name"></a> [user\_name](#input\_user\_name) | User name for new user. Required value. | `string` | n/a | yes |
 | <a name="input_user_path"></a> [user\_path](#input\_user\_path) | Path for new user. Defaults to "/". | `string` | `"/"` | no |
 
