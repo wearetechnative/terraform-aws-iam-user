@@ -1,6 +1,7 @@
 resource "aws_iam_user" "this" {
   name = var.user_name
   path = local.validated_user_path
+  password_reset_required = var.password_reset_required
 
   force_destroy = true
 }

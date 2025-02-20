@@ -52,3 +52,9 @@ variable "allow_console_login" {
   type        = bool
   default     = false
 }
+
+variable "password_reset_required" {
+  description = "Require password reset on next login."
+  type = bool
+  default = false
+}
