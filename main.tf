@@ -3,6 +3,13 @@ resource "aws_iam_user" "this" {
   path = local.validated_user_path
 
   force_destroy = true
+  tags = {}
+
+  lifecycle {
+    ignore_changes = [
+      tags 
+    ]
+  }
 }
 
 module "policy_helper" {
